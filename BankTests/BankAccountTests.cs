@@ -23,6 +23,7 @@ namespace BankTests
             // assert
             double actual = account.Balance;
             Assert.AreEqual(expected, actual, 0.001, "Account not debited correctly");
+
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -46,6 +47,7 @@ namespace BankTests
             Assert.Fail("No exception was thrown.");
         }
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void Debit_WhenAmountIsMoreThanBalance_ShouldThrowArgumentOutOfRange()
         {
             // arrange
@@ -67,6 +69,30 @@ namespace BankTests
             Assert.Fail("No exception was thrown.");
         }
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void accountFrozen_shouldThrowException()
+        {
+            // arrange
+            double beginningBalance = 11.99;
+            double creditAmount = 20.0;
+            BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+            
+            // act
+            try
+            {
+                account.FreezeAccount();
+                account.Credit(creditAmount);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                // assert
+                StringAssert.Contains(e.Message, BankAccount.AccountFrozen);
+                return;
+            }
+            Assert.Fail("No exception was thrown.");
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void amountNegative_shouldThrowArgumentOutOfRangeException()
         {
             // arrange
@@ -87,28 +113,5 @@ namespace BankTests
             }
             Assert.Fail("No exception was thrown.");
         }
-        [TestMethod]
-        public void accountFrozen_shouldThrowException()
-        {
-            // arrange
-            double beginningBalance = 11.99;
-            double creditAmount = 20.0;
-            BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
-            
-            // act
-            try
-            {
-                account.FreezeAccount();
-                account.Credit(creditAmount);
-            }
-            catch (Exception e)
-            {
-                // assert
-                StringAssert.Contains(e.Message, BankAccount.DebitAmountExceedsBalanceMessage);
-                return;
-            }
-            Assert.Fail("No exception was thrown.");
-        }
-        
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 
-using System;
-
 namespace BankAccountNS
 {
     /// <summary>
@@ -18,6 +16,7 @@ namespace BankAccountNS
         public const string DebitAmountExceedsBalanceMessage = "Debit amount exceeds balance";
         public const string DebitAmountLessThanZeroMessage = "Debit amount less than zero";
         public const string AmountNegativeMessage = "The amount provided is negative";
+        public const string AccountFrozen = "The account is frozen";
         private BankAccount()
         {
         }
@@ -42,7 +41,7 @@ namespace BankAccountNS
         {
             if (m_frozen)
             {
-                throw new Exception("Account frozen");
+                throw new Exception(AccountFrozen);
             }
 
             if (amount > m_balance)
@@ -62,12 +61,12 @@ namespace BankAccountNS
         {
             if (m_frozen)
             {
-                throw new Exception("Account frozen");
+                throw new ArgumentOutOfRangeException("Frozen",m_frozen,AccountFrozen);
             }
 
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException("amount");
+                throw new ArgumentOutOfRangeException("Amount",amount,AmountNegativeMessage);
             }
 
             m_balance += amount;
