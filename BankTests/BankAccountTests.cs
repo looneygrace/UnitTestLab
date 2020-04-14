@@ -70,5 +70,28 @@ namespace BankTests
             }
             Assert.Fail("No exception was thrown.");
         }
+
+        [TestMethod]
+        public void Credit_AmountIsNegative_ShouldThrowArgumentOutOfRange()
+        {
+            // arrange
+            double beginningBalance = 152.99;
+            double creditAmount = -10.0;
+            BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+
+            // act
+            try
+            {
+                account.Debit(creditAmount);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                // assert
+                e.Message
+                StringAssert.Contains(e.Message, BankAccount.CreditAmountNegativeMessage);
+                return;
+            }
+            Assert.Fail("No exception was thrown.");
+        }
     }
 }
