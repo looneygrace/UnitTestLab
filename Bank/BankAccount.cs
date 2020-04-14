@@ -61,18 +61,18 @@ namespace BankAccountNS
         {
             if (m_frozen)
             {
-                throw new ArgumentOutOfRangeException("Frozen",m_frozen,AccountFrozen);
+                throw new Exception("Account frozen");
             }
 
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException("Amount",amount,CreditAmountNegativeMessage);
+                throw new ArgumentOutOfRangeException("amount", amount, CreditAmountNegativeMessage);
             }
 
             m_balance += amount;
         }
 
-        public void FreezeAccount()
+            public void FreezeAccount()
         {
             m_frozen = true;
         }

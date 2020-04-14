@@ -82,12 +82,11 @@ namespace BankTests
             // act
             try
             {
-                account.Debit(creditAmount);
+                account.Credit(creditAmount);
             }
             catch (ArgumentOutOfRangeException e)
             {
                 // assert
-                e.Message
                 StringAssert.Contains(e.Message, BankAccount.CreditAmountNegativeMessage);
                 return;
             }
