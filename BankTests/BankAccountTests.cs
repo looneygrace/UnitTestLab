@@ -92,5 +92,27 @@ namespace BankTests
             }
             Assert.Fail("No exception was thrown.");
         }
+        [TestMethod]
+        public void Credit_AccountFrozen_ShouldThrowArgumentOutOfRange()
+        {
+            // arrange
+            double beginningBalance = 152.99;
+            double creditAmount = 10.0;
+            BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+
+            // act
+            try
+            {
+                account.FreezeAccount();
+                account.Credit(creditAmount);
+            }
+            catch (Exception e)
+            {
+                // assert
+                StringAssert.Contains(e.Message, BankAccount.AccountFrozen);
+                return;
+            }
+            Assert.Fail("No exception was thrown.");
+        }
     }
 }

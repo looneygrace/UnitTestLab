@@ -61,7 +61,7 @@ namespace BankAccountNS
         {
             if (m_frozen)
             {
-                throw new Exception("Account frozen");
+                throw new Exception(AccountFrozen);
             }
 
             if (amount < 0)
