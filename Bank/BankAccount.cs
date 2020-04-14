@@ -17,7 +17,7 @@ namespace BankAccountNS
 
         public const string DebitAmountExceedsBalanceMessage = "Debit amount exceeds balance";
         public const string DebitAmountLessThanZeroMessage = "Debit amount less than zero";
-
+        public const string AmountNegativeMessage = "The amount provided is negative";
         private BankAccount()
         {
         }
@@ -73,7 +73,7 @@ namespace BankAccountNS
             m_balance += amount;
         }
 
-        private void FreezeAccount()
+        public void FreezeAccount()
         {
             m_frozen = true;
         }

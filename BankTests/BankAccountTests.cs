@@ -33,10 +33,17 @@ namespace BankTests
             double debitAmount = -100.00;
             BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
 
-            // act
-            account.Debit(debitAmount);
-
-            // assert is handled by ExpectedException
+            try
+            {
+                account.Debit(debitAmount);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                // assert
+                StringAssert.Contains(e.Message, BankAccount.DebitAmountLessThanZeroMessage);
+                return;
+            }
+            Assert.Fail("No exception was thrown.");
         }
         [TestMethod]
         public void Debit_WhenAmountIsMoreThanBalance_ShouldThrowArgumentOutOfRange()
@@ -59,5 +66,49 @@ namespace BankTests
             }
             Assert.Fail("No exception was thrown.");
         }
+        [TestMethod]
+        public void amountNegative_shouldThrowArgumentOutOfRangeException()
+        {
+            // arrange
+            double beginningBalance = 11.99;
+            double creditAmount = -20.0;
+            BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+
+            // act
+            try
+            {
+                account.Credit(creditAmount);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                // assert
+                StringAssert.Contains(e.Message, BankAccount.AmountNegativeMessage);
+                return;
+            }
+            Assert.Fail("No exception was thrown.");
+        }
+        [TestMethod]
+        public void accountFrozen_shouldThrowException()
+        {
+            // arrange
+            double beginningBalance = 11.99;
+            double creditAmount = 20.0;
+            BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+            
+            // act
+            try
+            {
+                account.FreezeAccount();
+                account.Credit(creditAmount);
+            }
+            catch (Exception e)
+            {
+                // assert
+                StringAssert.Contains(e.Message, BankAccount.DebitAmountExceedsBalanceMessage);
+                return;
+            }
+            Assert.Fail("No exception was thrown.");
+        }
+        
     }
 }
