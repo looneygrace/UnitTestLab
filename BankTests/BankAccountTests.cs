@@ -114,5 +114,23 @@ namespace BankTests
             }
             Assert.Fail("No exception was thrown.");
         }
+        // unit test code
+        [TestMethod]
+        public void Credit_WithValidAmount_UpdatesBalance()
+        {
+            // arrange
+            double beginningBalance = 11.99;
+            double creditAmount = 4.55;
+            double expected = beginningBalance+creditAmount;
+            BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+
+            // act
+            account.Credit(creditAmount);
+
+            // assert
+            double actual = account.Balance;
+            Assert.AreEqual(expected, actual, 0.001, "Account not credited correctly");
+        }
+
     }
 }
